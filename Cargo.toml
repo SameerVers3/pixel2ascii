@@ -2,6 +2,17 @@
 name = "pixel2ascii"
 version = "0.1.0"
 edition = "2024"
+authors = ["Sameer sameervers3@gmail.com"]
+description = "Convert images into ASCII art with color and grayscale support, including block-based sampling, ANSI color output, and CLI."
+license = "MIT"
+repository = "https://github.com/SameerVers3/pixel2ascii"
+readme = "README.md"
+keywords = ["ascii", "image", "terminal", "cli", "art"]
+categories = ["command-line-utilities", "graphics"]
+homepage = "https://github.com/SameerVers3/pixel2ascii"
+documentation = "https://docs.rs/pixel2ascii"
+publish = true
+exclude = ["target/*", "*.rs.bk", "*.swp", ".vscode/", ".idea/"]
 
 [dependencies]
 clap = { version = "4.5.54", features = ["derive"] }
