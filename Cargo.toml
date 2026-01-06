@@ -1,6 +1,6 @@
 [package]
 name = "pixel2ascii"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2024"
 authors = ["Sameer sameervers3@gmail.com"]
 description = "Convert images into ASCII art with color and grayscale support, including block-based sampling, ANSI color output, and CLI."
