@@ -1,4 +1,6 @@
-use image::{RgbImage};
+use image::RgbImage;
+use rayon::prelude::*;
+use std::path::Path;
 
 pub fn load_rgb(path: &str) -> RgbImage {
     image::open(path).unwrap().to_rgb8()
@@ -70,24 +72,27 @@ pub fn sample_image_blocks(
     image_h: u32, 
     is_invert: bool,
 ) -> Vec<Vec<BlockSample>> {
-    let mut blocks: Vec<Vec<BlockSample>> = Vec::new();
+    // Collect row y-coordinates
+    let row_starts: Vec<u32> = (0..).step_by(block_h as usize)
+        .take_while(|&y| y < image_h)
+        .collect();
 
-    let mut y = 0;
+    // Process rows in parallel
+    row_starts
+        .par_iter()
+        .map(|&y| {
+            // Process columns sequentially within each row
+            (0..)
+                .step_by(block_w as usize)
+                .take_while(|&x| x < image_w)
+                .map(|x| block_color(img, x, y, block_w, block_h, is_invert))
+                .collect()
+        })
+        .collect()
+}
 
-    while y < image_h {
-        let mut row: Vec<BlockSample> = Vec::new();
-
-        let mut x = 0;
-
-        while x < image_w {
-            let block = block_color(img, x, y, block_w, block_h, is_invert);
-            row.push(block);
-
-            x += block_w;
-        }
-        blocks.push(row);
-        y += block_h;
-    }
-
-    blocks
+pub fn is_gif(path: &Path) -> bool {
+    path.extension()
+        .map(|ext| ext.eq_ignore_ascii_case("gif"))
+        .unwrap_or(false)
 }

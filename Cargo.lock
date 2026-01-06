@@ -724,6 +724,7 @@ dependencies = [
  "clap",
  "font8x8",
  "image",
+ "rayon",
  "rusttype",
 ]
 
